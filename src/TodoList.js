@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 
-
 function TodoList() {
   const [items, setItems] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
@@ -41,8 +40,10 @@ function TodoList() {
 
   // Focus the edit input when the item being edited changes
   useEffect(() => {
-    if (editInputRef.current) {
-      editInputRef.current.focus();
+    const editInput = editInputRef.current;
+    if (editInput) {
+      editInput.focus();
+      editInput.select();
     }
   }, [editIndex]);
 
