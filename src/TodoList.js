@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 
 
 function TodoList() {
   const [items, setItems] = useState([]);
   const [editIndex, setEditIndex] = useState(null);
   const [editValue, setEditValue] = useState('');
+  const editInputRef = useRef(null);
 
   function handleFormSubmit(event) {
     event.preventDefault();
@@ -38,32 +39,40 @@ function TodoList() {
     setEditValue(event.target.value);
   }
 
+  // Focus the edit input when the item being edited changes
+  useEffect(() => {
+    if (editInputRef.current) {
+      editInputRef.current.focus();
+    }
+  }, [editIndex]);
+
   return (
-      <div>
-        <h1>Todo List</h1>
-        <form onSubmit={handleFormSubmit}>
-          <input type="text" name="iteminput" />
-          <button type="submit">Add</button>
-        </form>
-        <ul>
-          {items.map((item, index) => (
-              <li key={index}>
-                {editIndex === index ? (
-                  <>
-                    <input type="text" value={editValue} onChange={handleEditInputChange} />
-                    <button type="button" onClick={() => handleItemSave(index)}>Save</button>
-                  </>
-                ) : (
-                  <>
-                    {item}
-                    <button type="button" onClick={() => handleItemDelete(index)}>Delete</button>
-                    <button type="button" onClick={() => handleItemEdit(index)}>Edit</button>
-                  </>
-                )}
-              </li>
-          ))}
-        </ul>
-      </div>
+    <div>
+      <h1>Todo List</h1>
+      <form onSubmit={handleFormSubmit}>
+        <input type="text" name="iteminput" />
+        <button type="submit">Add</button>
+      </form>
+      <ul>
+        {items.map((item, index) => (
+          <li key={index}>
+            {editIndex === index ? (
+              <>
+                <input type="text" value={editValue} onChange={handleEditInputChange} ref={editInputRef} />
+                <button type="button" onClick={() => handleItemSave(index)}>Save</button>
+              </>
+
+            ) : (
+              <>
+                {item}
+                <button type="button" onClick={() => handleItemDelete(index)}>Delete</button>
+                <button type="button" onClick={() => handleItemEdit(index)}>Edit</button>
+              </>
+            )}
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
