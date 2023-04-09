@@ -15,6 +15,10 @@ function Todo() {
         setTasks([...tasks, addTaskInputValue]);
         setAddTaskInputValue('');
     };
+    const handleDeleteTask = (index: number) => {
+        const newTasks = tasks.filter((task, i) => i !== index);
+        setTasks(newTasks);
+    }
 
     return (
         <div className="container">
@@ -35,6 +39,12 @@ function Todo() {
                                 <InputGroup className="mb-3" key={index}>
                                     <InputGroup.Checkbox className="mt-0" />
                                     <Form.Control type="text" value={task}/>
+                                    <Button
+                                        variant="outline-secondary"
+                                        onClick={() => handleDeleteTask(index)}
+                                    >
+                                        Delete
+                                    </Button>
                                 </InputGroup>
                             );
                         })
