@@ -32,7 +32,7 @@ function Todo() {
                         tasks.map((task, index) => {
                             return (
                                 <InputGroup className="mb-3" key={index}>
-                                    <InputGroup.Checkbox />
+                                    <InputGroup.Checkbox className="mt-0" />
                                     <Form.Control type="text" value={task}/>
                                 </InputGroup>
                             );
