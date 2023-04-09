@@ -7,7 +7,7 @@ function Todo() {
     const [tasks, setTasks] = useState<string[]>([]);
 
     // Handlers
-    const onAddTaskInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const handleAddTaskInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         setAddTaskInputValue(event.target.value);
     }
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -22,7 +22,7 @@ function Todo() {
             <Form onSubmit={handleFormSubmit}>
                 <Form.Group>
                     <InputGroup className="mb-3">
-                        <Form.Control type="text" value={addTaskInputValue} onChange={onAddTaskInputChange}/>
+                        <Form.Control type="text" value={addTaskInputValue} onChange={handleAddTaskInputChange}/>
                         <Button type="submit" variant="primary">
                             Add
                         </Button>
