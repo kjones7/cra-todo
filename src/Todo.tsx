@@ -13,6 +13,7 @@ function Todo() {
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         setTasks([...tasks, addTaskInputValue]);
+        setAddTaskInputValue('');
     };
 
     return (
