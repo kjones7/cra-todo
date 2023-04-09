@@ -19,6 +19,12 @@ function Todo() {
         const newTasks = tasks.filter((task, i) => i !== index);
         setTasks(newTasks);
     }
+    const handleTaskChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const newTask = e.target.value;
+        const newTasks = [...tasks];
+        newTasks[index] = newTask;
+        setTasks(newTasks);
+    };
 
     return (
         <div className="container">
@@ -38,7 +44,7 @@ function Todo() {
                             return (
                                 <InputGroup className="mb-3" key={index}>
                                     <InputGroup.Checkbox className="mt-0" />
-                                    <Form.Control type="text" value={task}/>
+                                    <Form.Control type="text" value={task} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTaskChange(index, e)}/>
                                     <Button
                                         variant="outline-secondary"
                                         onClick={() => handleDeleteTask(index)}
