@@ -37,6 +37,15 @@ function Todo() {
         var newTasks = tasks.map((task, i) => {return i === index ? newTask : task});
         setTasks(newTasks);
     };
+    const handleCheckboxChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
+        const oldTask = tasks[index];
+        const newTask = {
+            task: oldTask.task,
+            isCompleted: e.target.checked,
+        };
+        var newTasks = tasks.map((task, i) => {return i === index ? newTask : task});
+        setTasks(newTasks);
+    };
 
     return (
         <div className="container">
@@ -55,7 +64,7 @@ function Todo() {
                         tasks.map((task, index) => {
                             return (
                                 <InputGroup className="mb-3" key={index}>
-                                    <InputGroup.Checkbox className="mt-0" />
+                                    <InputGroup.Checkbox className="mt-0" checked={task.isCompleted} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(index, e)} />
                                     <Form.Control type="text" value={task.task} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTaskChange(index, e)}/>
                                     <Button
                                         variant="outline-secondary"
