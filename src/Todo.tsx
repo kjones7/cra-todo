@@ -1,8 +1,10 @@
 import React, {useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import {Button, InputGroup} from "react-bootstrap";
+import genUniqueId from "./helpers";
 
 interface Task {
+    id: number,
     task: string;
     isCompleted: boolean;
 }
@@ -18,32 +20,41 @@ function Todo() {
     const handleFormSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         const newTask = {
+            id: genUniqueId(),
             task: addTaskInputValue,
             isCompleted: false,
         };
         setTasks([...tasks, newTask]);
         setAddTaskInputValue('');
     };
-    const handleDeleteTask = (index: number) => {
-        const newTasks = tasks.filter((task, i) => i !== index);
+    const handleDeleteTask = (taskToDelete: Task) => {
+        const newTasks = tasks.filter(task => task.id !== taskToDelete.id);
         setTasks(newTasks);
     }
-    const handleTaskChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-        const oldTask = tasks[index];
+    const handleTaskChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
+        const oldTask = tasks.find(task => task.id === changedTask.id);
+        if (oldTask === undefined) {
+            throw new Error();
+        }
         const newTask = {
+            id: oldTask.id,
             task: e.target.value,
             isCompleted: oldTask.isCompleted,
         };
-        var newTasks = tasks.map((task, i) => {return i === index ? newTask : task});
+        const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
     };
-    const handleCheckboxChange = (index: number, e: React.ChangeEvent<HTMLInputElement>) => {
-        const oldTask = tasks[index];
+    const handleCheckboxChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
+        const oldTask = tasks.find(task => task.id === changedTask.id);
+        if (oldTask === undefined) {
+            throw new Error();
+        }
         const newTask = {
+            id: oldTask.id,
             task: oldTask.task,
             isCompleted: e.target.checked,
         };
-        var newTasks = tasks.map((task, i) => {return i === index ? newTask : task});
+        const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
     };
 
@@ -61,14 +72,14 @@ function Todo() {
                 </Form.Group>
                 <Form.Group>
                     {
-                        tasks.map((task, index) => {
+                        tasks.map(task => {
                             return (
-                                <InputGroup className="mb-3" key={index}>
-                                    <InputGroup.Checkbox className="mt-0" checked={task.isCompleted} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(index, e)} />
-                                    <Form.Control type="text" value={task.task} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTaskChange(index, e)}/>
+                                <InputGroup className="mb-3" key={task.id}>
+                                    <InputGroup.Checkbox className="mt-0" checked={task.isCompleted} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleCheckboxChange(task, e)} />
+                                    <Form.Control type="text" value={task.task} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTaskChange(task, e)}/>
                                     <Button
                                         variant="outline-secondary"
-                                        onClick={() => handleDeleteTask(index)}
+                                        onClick={() => handleDeleteTask(task)}
                                     >
                                         Delete
                                     </Button>
