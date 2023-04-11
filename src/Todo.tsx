@@ -45,15 +45,10 @@ function Todo() {
         setTasks(newTasks);
     };
     const handleCheckboxChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
-        const oldTask = tasks.find(task => task.id === changedTask.id);
-        if (oldTask === undefined) {
-            throw new Error();
-        }
         const newTask = {
-            id: oldTask.id,
-            task: oldTask.task,
+            ...changedTask,
             isCompleted: e.target.checked,
-        };
+        }
         const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
     };
