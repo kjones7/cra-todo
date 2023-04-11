@@ -32,14 +32,9 @@ function Todo() {
         setTasks(newTasks);
     }
     const handleTaskChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
-        const oldTask = tasks.find(task => task.id === changedTask.id);
-        if (oldTask === undefined) {
-            throw new Error();
-        }
         const newTask = {
-            id: oldTask.id,
+            ...changedTask,
             task: e.target.value,
-            isCompleted: oldTask.isCompleted,
         };
         const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
