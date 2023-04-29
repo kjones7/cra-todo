@@ -24,6 +24,34 @@ function Todo() {
         setAddTaskInputValue('');
     };
 
+    // JSX builders
+    const createTaskItems = ({tasks, isCompleted}: {tasks: Task[], isCompleted: boolean}) => {
+        return tasks.reduce((acc: JSX.Element[], task: Task) => {
+            if (task.isCompleted === isCompleted) {
+                acc.push(
+                    <TaskItem
+                        task={task}
+                        tasks={tasks}
+                        setTasks={setTasks}
+                        key={task.id}
+                    />
+                );
+            }
+
+            return acc;
+        }, []);
+    };
+
+    // JSX arrays
+    const incompleteTasks = createTaskItems({
+        tasks: tasks,
+        isCompleted: false,
+    });
+    const completedTasks = createTaskItems({
+        tasks: tasks,
+        isCompleted: true,
+    });
+
     return (
         <div className="container">
             <h1 className="display-6">Todo List</h1>
@@ -37,21 +65,11 @@ function Todo() {
                     </InputGroup>
                 </Form.Group>
                 <Form.Group>
-                    {
-                        tasks.map(task => {
-                            return (
-                                <TaskItem
-                                    task={task}
-                                    tasks={tasks}
-                                    setTasks={setTasks}
-                                    key={task.id}
-                                />
-                            );
-                        })
-                    }
+                    {incompleteTasks}
                 </Form.Group>
                 <Form.Group>
                     <h6>Completed</h6>
+                    {completedTasks}
                 </Form.Group>
             </Form>
         </div>
