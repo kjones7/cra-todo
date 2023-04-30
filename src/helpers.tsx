@@ -1,10 +1,7 @@
-let counter = 0;
-
-// NOTE: This is a temporary function used to generate unique numbers for component keys
+// NOTE: This is a temporary function used to generate unique ids for component keys
 // TODO: Use database keys once backend is implemented
 function genUniqueId() {
-    counter += 1;
-    return counter;
+    return Math.random();
 }
 
 export default genUniqueId;

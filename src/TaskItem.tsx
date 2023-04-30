@@ -3,10 +3,11 @@ import React from "react";
 import Form from "react-bootstrap/Form";
 import Task from "./task";
 
-export default function TaskItem({task, tasks, setTasks}: {task: Task, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>}) {
+export default function TaskItem({task, tasks, setTasks, storeTasks}: {task: Task, tasks: Task[], setTasks: React.Dispatch<React.SetStateAction<Task[]>>, storeTasks: Function}) {
     const handleDeleteTask = (taskToDelete: Task) => {
         const newTasks = tasks.filter(task => task.id !== taskToDelete.id);
         setTasks(newTasks);
+        storeTasks(newTasks);
     }
     const handleTaskChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
         const newTask = {
@@ -15,6 +16,7 @@ export default function TaskItem({task, tasks, setTasks}: {task: Task, tasks: Ta
         };
         const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
+        storeTasks(newTasks);
     };
     const handleCheckboxChange = (changedTask: Task, e: React.ChangeEvent<HTMLInputElement>) => {
         const newTask = {
@@ -23,6 +25,7 @@ export default function TaskItem({task, tasks, setTasks}: {task: Task, tasks: Ta
         }
         const newTasks = tasks.map(task => task.id === newTask.id ? newTask : task);
         setTasks(newTasks);
+        storeTasks(newTasks);
     };
 
     return (

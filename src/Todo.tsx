@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Form from 'react-bootstrap/Form';
 import {Button, InputGroup} from "react-bootstrap";
 import genUniqueId from "./helpers";
@@ -8,6 +8,13 @@ import TaskItem from "./TaskItem";
 function Todo() {
     const [addTaskInputValue, setAddTaskInputValue] = useState<string>('');
     const [tasks, setTasks] = useState<Task[]>([]);
+
+    useEffect(() => {
+        const unparsedTasks = localStorage.getItem('tasks');
+        if (unparsedTasks !== null) {
+            setTasks(JSON.parse(unparsedTasks));
+        }
+    }, []);
 
     // Handlers
     const handleAddTaskInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -20,8 +27,15 @@ function Todo() {
             task: addTaskInputValue,
             isCompleted: false,
         };
-        setTasks([...tasks, newTask]);
+        const newTasks = [...tasks, newTask];
+        setTasks(newTasks);
+        storeTasks(newTasks);
         setAddTaskInputValue('');
+    };
+
+    // Helpers
+    const storeTasks = (tasks: Task[]) => {
+        localStorage.setItem('tasks', JSON.stringify(tasks));
     };
 
     // JSX builders
@@ -34,6 +48,7 @@ function Todo() {
                         tasks={tasks}
                         setTasks={setTasks}
                         key={task.id}
+                        storeTasks={storeTasks}
                     />
                 );
             }
