@@ -69,20 +69,21 @@ function Todo() {
 
     return (
         <div className="container">
-            <h1 className="display-6">Todo List</h1>
-            <Form onSubmit={handleFormSubmit}>
-                <Form.Group>
+            <Form.Control type="text" value="Todo List 1" className="form-control-lg mb-4 mt-2 fw-semibold"/>
+            <Form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center justify-content-center">
+                <Form.Group className="w-75">
                     <InputGroup className="mb-3">
                         <Form.Control type="text" value={addTaskInputValue} onChange={handleAddTaskInputChange}/>
                         <Button type="submit" variant="primary">
                             Add
                         </Button>
                     </InputGroup>
+                    <hr></hr>
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="w-75">
                     {incompleteTasks}
                 </Form.Group>
-                <Form.Group>
+                <Form.Group className="w-75">
                     <h6>Completed</h6>
                     {completedTasks}
                 </Form.Group>
