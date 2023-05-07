@@ -12,8 +12,12 @@ function Todo() {
 
     useEffect(() => {
         const unparsedTasks = localStorage.getItem('tasks');
+        const listTitle = localStorage.getItem('listTitle');
         if (unparsedTasks !== null) {
             setTasks(JSON.parse(unparsedTasks));
+        }
+        if (listTitle !== null) {
+            setListTitle(listTitle);
         }
     }, []);
 
@@ -32,6 +36,11 @@ function Todo() {
         setTasks(newTasks);
         storeTasks(newTasks);
         setAddTaskInputValue('');
+    };
+    const handleListTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const newListTitle = e.target.value;
+        setListTitle(newListTitle);
+        localStorage.setItem('listTitle', newListTitle);
     };
 
     // Helpers
@@ -73,7 +82,7 @@ function Todo() {
             <Form.Control
                 type="text"
                 value={listTitle}
-                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setListTitle(e.target.value)}
+                onChange={handleListTitleChange}
                 className="form-control-lg mb-4 mt-2 fw-semibold"
             />
             <Form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center justify-content-center">
