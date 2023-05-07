@@ -8,6 +8,7 @@ import TaskItem from "./TaskItem";
 function Todo() {
     const [addTaskInputValue, setAddTaskInputValue] = useState<string>('');
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [listTitle, setListTitle] = useState('');
 
     useEffect(() => {
         const unparsedTasks = localStorage.getItem('tasks');
@@ -69,7 +70,12 @@ function Todo() {
 
     return (
         <div className="container">
-            <Form.Control type="text" value="Todo List 1" className="form-control-lg mb-4 mt-2 fw-semibold"/>
+            <Form.Control
+                type="text"
+                value={listTitle}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => setListTitle(e.target.value)}
+                className="form-control-lg mb-4 mt-2 fw-semibold"
+            />
             <Form onSubmit={handleFormSubmit} className="d-flex flex-column align-items-center justify-content-center">
                 <Form.Group className="w-75">
                     <InputGroup className="mb-3">
